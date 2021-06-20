@@ -1,108 +1,17 @@
 import json
 import os
 
-from docx import Document
-
-input_file = "C:/temp/input/农村房屋安全信息采集表（自建房）.docx"
 file_path = "C:/temp/output/西村房屋信息/"
-output_path = "C:/temp/output/农村房屋安全信息采集表/"
 
-def check_and_change():
-    """
-    注意事项：
-    直接操作paragraph.text会导致字体格式丢失，所以要遍历其run操作。
-    一个段落会被分成多个run，为了确保替换元内容不被分割，最好用"AA、AB"这种形式，而不要使用类似"${21}"这样的字符串。
-    """
+
+def check():
 
     for root, dirs, files in os.walk(file_path):
-
         # 遍历文件
         for file in files:
-            # 产权人
-            AA = ""
-            # 身份证号
-            AB = ""
-            # 建筑层数
-            BA = "□"
-            BB = "□"
-            BC = "□"
-            # 建筑面积
-            BD = ""
-            # 建造年代
-            CA = "□"
-            CB = "□"
-            CC = "□"
-            CD = "□"
-            CE = "□"
-            # 结构类型
-            DA = "□"
-            DB = "□"
-            DC = "□"
-            DD = "□"
-            DE = "□"
-            # 建造方式
-            EA = "□"
-            EB = "□"
-            EC = "□"
-            ED = "□"
-            EE = ""
-            # 土地性质
-            FA = "□"
-            FB = "□"
-            # 宅基地手续
-            GA = "□"
-            GB = "□"
-            # 规划建设手续
-            GC = "□"
-            GD = "□"
-            # 竣工验收手续
-            HA = "□"
-            HB = "□"
-            # 房屋登记手续
-            HC = "□"
-            HD = "□"
-            # 是否改造
-            IA = "□"
-            IB = "□"
-            # 改造回数
-            IC = "□"
-            ID = "□"
-            # 改造内容
-            JA = "□"
-            JB = "□"
-            JC = "□"
-            JD = "□"
-            JE = "□"
-            JF = ""
-            # 是否用作经营
-            KA = "□"
-            KB = "□"
-            # 经营审批手续
-            LA = "□"
-            LB = "□"
-            # 主要用途
-            MA = "□"
-            MB = "□"
-            MC = "□"
-            # 采暖用能
-            NA = "□"
-            NB = "□"
-            NC = "□"
-            ND = "□"
-            NE = "□"
-            NF = ""
-            # 炊事用能
-            OA = "□"
-            OB = "□"
-            OC = "□"
-            OD = "□"
-            OE = "□"
-            OF = ""
-            doc = Document(input_file)
             detail = json.load(open(file_path + file, 'r', encoding='utf-8'))
             # 产权人
             AA = detail["data"]["propertyOwner"]
-            print(AA)
             # 身份证号
             AB = detail["data"]["certNumber"]
             # 建筑层数
@@ -271,6 +180,7 @@ def check_and_change():
             if "5" in heatEnergy:
                 NE = "■"
                 NF = detail["data"]["heatEnergyOther"]
+                break
             # 炊事用能
             cookEnergy = detail["data"]["cookEnergy"]
             if "1" in cookEnergy:
@@ -284,84 +194,15 @@ def check_and_change():
             if "5" in cookEnergy:
                 OE = "■"
                 OF = detail["data"]["cookEnergyOther"]
+                break
             # 安全隐患初判
             houseSafeJudge = detail["data"]["houseSafeJudge"]
             if houseSafeJudge == "2":
                 print("出现其他安全隐患初判：" + AA)
 
-            # 遍历所有表格进行替换。
-            for table in doc.tables:
-                for row in table.rows:
-                    for cell in row.cells:
-                        for paragraph in cell.paragraphs:
-                            for run in paragraph.runs:
-                                #print(run.text)
-                                run.text = run.text.replace("AA", AA)
-                                run.text = run.text.replace("AB", AB)
-                                run.text = run.text.replace("BA", BA)
-                                run.text = run.text.replace("BB", BB)
-                                run.text = run.text.replace("BC", BC)
-                                run.text = run.text.replace("BD", str(BD))
-                                run.text = run.text.replace("CA", CA)
-                                run.text = run.text.replace("CB", CB)
-                                run.text = run.text.replace("CC", CC)
-                                run.text = run.text.replace("CD", CD)
-                                run.text = run.text.replace("CE", CE)
-                                run.text = run.text.replace("DA", DA)
-                                run.text = run.text.replace("DB", DB)
-                                run.text = run.text.replace("DC", DC)
-                                run.text = run.text.replace("DD", DD)
-                                run.text = run.text.replace("DE", DE)
-                                run.text = run.text.replace("EA", EA)
-                                run.text = run.text.replace("EB", EB)
-                                run.text = run.text.replace("EC", EC)
-                                run.text = run.text.replace("ED", ED)
-                                run.text = run.text.replace("EE", EE)
-                                run.text = run.text.replace("FA", FA)
-                                run.text = run.text.replace("FB", FB)
-                                run.text = run.text.replace("GA", GA)
-                                run.text = run.text.replace("GB", GB)
-                                run.text = run.text.replace("GC", GC)
-                                run.text = run.text.replace("GD", GD)
-                                run.text = run.text.replace("HA", HA)
-                                run.text = run.text.replace("HB", HB)
-                                run.text = run.text.replace("HC", HC)
-                                run.text = run.text.replace("HD", HD)
-                                run.text = run.text.replace("IA", IA)
-                                run.text = run.text.replace("IB", IB)
-                                run.text = run.text.replace("IC", IC)
-                                run.text = run.text.replace("ID", ID)
-                                run.text = run.text.replace("JA", JA)
-                                run.text = run.text.replace("JB", JB)
-                                run.text = run.text.replace("JC", JC)
-                                run.text = run.text.replace("JD", JD)
-                                run.text = run.text.replace("JE", JE)
-                                run.text = run.text.replace("JF", JF)
-                                run.text = run.text.replace("KA", KA)
-                                run.text = run.text.replace("KB", KB)
-                                run.text = run.text.replace("LA", LA)
-                                run.text = run.text.replace("LB", LB)
-                                run.text = run.text.replace("MA", MA)
-                                run.text = run.text.replace("MB", MB)
-                                run.text = run.text.replace("MC", MC)
-                                run.text = run.text.replace("NA", NA)
-                                run.text = run.text.replace("NB", NB)
-                                run.text = run.text.replace("NC", NC)
-                                run.text = run.text.replace("ND", ND)
-                                run.text = run.text.replace("NE", NE)
-                                run.text = run.text.replace("NF", NF)
-                                run.text = run.text.replace("OA", OA)
-                                run.text = run.text.replace("OB", OB)
-                                run.text = run.text.replace("OC", OC)
-                                run.text = run.text.replace("OD", OD)
-                                run.text = run.text.replace("OE", OE)
-                                run.text = run.text.replace("OF", OF)
-
-            doc.save(output_path + AA + "（" + detail["data"]["id"] + "）.docx")
-
 
 def main():
-    check_and_change()
+    check()
 
 
 if __name__ == '__main__':
