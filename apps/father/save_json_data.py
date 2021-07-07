@@ -10,6 +10,9 @@ url = "https://ruralhouse.cubigdata.cn/houseInfoManage/queryHouseBaseInfoDetailB
 
 
 def save():
+    """
+    先从文件中获取所有人员编号，然后根据编号去网站上爬取住宅信息，存成单个文件。
+    """
 
     # 加载事先取得的，包含所有人员信息的JSON文件。
     users = json.load(open('C:/temp/input/users.txt', 'r', encoding='utf-8'))
